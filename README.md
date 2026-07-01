@@ -8,6 +8,7 @@ Four sets of installation manifests are provided:
   manifest set if you plan to use Argo CD to deploy applications in the same cluster that Argo CD runs
   in (i.e. kubernetes.default.svc). Will still be able to deploy to external clusters with inputted
   credentials.
+  #teat
 
 * [namespace-install.yaml](namespace-install.yaml) - Installation of Argo CD which requires only
   namespace level privileges (does not need cluster roles). Use this manifest set if you do not
