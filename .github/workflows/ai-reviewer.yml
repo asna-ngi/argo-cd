@@ -19,7 +19,7 @@ jobs:
       - name: Run AI review pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GB_TOKEN }}
           REPO_ROOT: ${{ github.workspace }}
           ARTIFACTS_DIR: ${{ github.workspace }}
           OUTPUTS_DIR: ${{ github.workspace }}
