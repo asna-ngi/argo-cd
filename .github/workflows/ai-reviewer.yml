@@ -1,0 +1,41 @@
+name: AI Code Review
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: write
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    # Run the job directly in the reviewer image (no docker-in-docker).
+    # Replace with your registry image (e.g. ghcr.io/org/ngi-ai-reviewer-bot:v1.0.0 or your-registry/ngi-ai-reviewer-bot:v1.0.0).
+    container: mashhoud/ngi-ai-reviewer-bot:latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run AI review pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_ROOT: ${{ github.workspace }}
+          ARTIFACTS_DIR: ${{ github.workspace }}
+          OUTPUTS_DIR: ${{ github.workspace }}
+          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
+          # Optional: override reviewer constants
+          # AI_REVIEWER_MODEL: claude-opus-4-7
+          # AI_REVIEWER_FALLBACK_MODEL: claude-sonnet-4-6
+          # AI_REVIEWER_DIFF_MAX_BYTES: "102400"
+          # AI_REVIEWER_MAX_CHANGED_FILES: "100"
+          # AI_REVIEWER_MAX_RETRIES: "3"
+          # AI_REVIEWER_MAX_TOKENS: "4096"
+          # AI_REVIEWER_USE_AI_GUIDES: "true"
+          # AI_REVIEWER_MAX_INLINE_COMMENTS: "10"
+          # AI_REVIEWER_LOG_API_PAYLOADS: "true"
+          # AI_REVIEWER_DISABLE_API_PAYLOAD_TRUNCATION: "true"
+          # AI_REVIEWER_COUNT_TOKENS: "true"
+          # AI_FULL_SCAN_MODEL: claude-sonnet-4-6
+        run: /app/run-pipeline.sh
+        #test
